@@ -1,0 +1,153 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# API Keys & Secrets
+*.key
+*.pem
+*.secret
+credentials.json
+secrets.yaml
+
+# Make.com backups
+*.make.backup
+.make.credentials
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Node modules (if needed)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+*.cache
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Sensitive data
+**/sensitive_data/**
+**/private_keys/**
+config/production.json
+
+# Railway secrets
+.railway/
+
+# Google Cloud
+google-cloud-key.json
+service-account-key.json
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Large files (videos, etc)
+*.mp4
+*.mov
+*.mkv
+*.avi
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Generated files
+dist/
+build/
+*.min.js
+*.min.css
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# IDE specific
+.project
+.pydevproject
+.vscode/settings.json
+
+# OS files
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Make.com specific
+.make/
+.make.json
+
+# Railway.app
+.railway/config.json
+.railway/secrets
+
+# Vercel
+.vercel/
+.env.local
+.env.production.local
+
+# CI/CD
+.github/workflows/secrets
+.gitlab-ci.yml.example
+
+# Documentation generated
+docs/generated/
+docs/_build/
+
+# Node version
+.nvmrc.local
+
+# Package lock (optional - uncomment if needed)
+# package-lock.json
+# yarn.lock
+
+# Excluded patterns
+!.gitkeep
+!example.env
+!.github/workflows/
