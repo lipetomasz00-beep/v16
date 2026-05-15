@@ -1,0 +1,357 @@
+{
+  "name": "CashMaker_Master_Truth_V16_ABSOLUTE",
+  "flow": [
+    {
+      "id": 1,
+      "module": "rss:TriggerNewArticle",
+      "version": 4,
+      "parameters": {
+        "url": "https://www.bankier.pl/rss/wiadomosci.xml",
+        "gzip": true,
+        "include": [],
+        "password": "",
+        "username": "",
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": -990,
+          "y": -311
+        }
+      }
+    },
+    {
+      "id": 405,
+      "module": "util:SetVariable2",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "name": "manifest",
+        "scope": "roundtrip",
+        "value": "# Projekt #CashMaker - Manifest Operacyjny\nCel operacyjny: 10 000€ miesięcznie. Konwersja: 100%. Komunikacja: Ekskluzywność i konkret.\n\n1. **Autonomiczna kreacja:** Publikacje YT Shorts/TikTok 3-4 razy dziennie generowane w Make.com. Treść wyłącznie ekspercka.\n2. **Algorytmiczny dobór ofert:** Scraper Node.js w czasie rzeczywistym dobiera najbardziej rentowne rozwiązania.\n3. **Precyzyjne opisy:** Słowa kluczowe twardo pozycjonują raport-finansowy24.pl jako profesjonalne narzędzie raportowe.\n4. **Bezwzględne przekierowanie:** Każdy materiał ma jedno zadanie – transfer wyselekcjonowanego widza do panelu.\n5. **Autorytet wizualny:** Zautomatyzowane generowanie spójnych, prestiżowych miniatur.\n6. **Dynamiczne linkowanie:** System na żywo odpytuje toomasz-money.oferty-kredytowe.pl i generuje jeden precyzyjny link afiliacyjny.\n7. **Ekskluzywny lejek:** Odrzucamy model zwykłego bloga. Panel filtruje przypadkowy ruch, przepuszczając tylko zdecydowanych na konwersję.\n8. **Kategoryzacja rozwiązań:** Dzielimy ruch społecznościowy na wyspecjalizowane ścieżki finansowe.\n9. **Niezależna dystrybucja:** Pełna autonomia zasięgowa. Działamy w oparciu o czystą logikę algorytmów platform.\n10. **Automatyzacja konwersji:** Eliminujemy ręczną moderację. Widz otrzymuje gotowy konkret i finalizuje proces."
+      },
+      "metadata": {
+        "designer": {
+          "x": -862,
+          "y": -1143
+        }
+      }
+    },
+    {
+      "id": 99,
+      "module": "gemini-ai:createACompletionGeminiPro",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": 7268898
+      },
+      "mapper": {
+        "model": "gemini-3.1-flash-lite",
+        "contents": [
+          {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Wykonaj zadanie na podstawie poniższych danych z rynku:\n\nTytuł: {{1.title}}\nTreść: {{1.description}}",
+                "type": "text"
+              }
+            ]
+          }
+        ],
+        "generationConfig": {
+          "imageConfig": {},
+          "temperature": "0.2",
+          "thinkingConfig": {},
+          "maxOutputTokens": "2499",
+          "responseMimeType": "application/json"
+        },
+        "system_instruction": {
+          "parts": [
+            {
+              "text": "Jesteś elitarnym analitykiem projektu CashMaker. Cel: 100% konwersji i monetyzacja na poziomie 10 000€/miesiąc. Odrzucasz agresywny marketing, operujesz wyłącznie merytorycznym konkretem i budujesz wizerunek premium oparty na ekskluzywności.\n\nTwoim zadaniem jest wygenerować surowy kod JSON dla wideo (Short/Reels), przekierowującego świadomych, zdecydowanych widzów do panelu raport-finansowy24.pl na podstawie dostarczonego newsa.\n\nZASADY:\n1. audio: Tekst lektora skrojony pod DOKŁADNIE 18 sekund (maksymalnie 40 słów). Pisz zwięzłymi, twardymi zdaniami opartymi na faktach. Zacznij od \"Huka\" – uderzającego konkretu z newsa. Następnie wskaż rozwiązanie: ekspercki panel raport-finansowy24.pl.\n2. opis: Maksymalnie 25 słów. Czysty, chłodny tekst. ABSOLUTNY ZAKAZ używania tagów HTML (żadnych <b>, <i>). Zakaz kopiowania treści z pola 'audio'. Na końcu dodaj 3-4 hashtagi dotyczace tematu ,w tym obowiązkowo #cashmaker.\n3. broll: Przeanalizuj news i wybierz JEDEN z trzech motywów wizualnych, a następnie wygeneruj dla niego angielski prompt pod generator wideo Veo 3.1 Lite (max 20 słów):\n   - Motyw Terminal (dla makroekonomii, stóp, NBP): \"Extreme macro shot of a dark glowing financial terminal screen, neon green and red trading charts, slow cinematic push-in,\"\n   - Motyw Luksus (dla podatków, kapitału, nieruchomości): \"Slow cinematic pan across a dark oak executive desk, a luxury gold watch, financial documents, moody dramatic lighting,\"\n   - Motyw Serwery (dla technologii, BIK, bankowości): \"Slow smooth tilt up inside a dark modern data center, glowing blue and purple server racks, optical fibers,\"\n\nNa końcu KAŻDEGO promptu broll obowiązkowo dodaj:\n\"photorealistic, cinematic quality, vertical video, 9:16 aspect ratio\",\nBrak ludzi w kadrze.\n(klucze: audio, opis, broll). \nNie umieszczaj cudzysłowów wewnątrz wartości JSON.\nZwróć wyłącznie pojedynczy poprawny obiekt JSON.\n\nNie używaj markdown.\nNie używaj bloków ```json.\nNie dodawaj komentarzy ani wyjaśnień.\nNie używaj znaków nowej linii wewnątrz wartości JSON.\nWszystkie wartości JSON muszą być poprawnie escaped."
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "designer": {
+          "x": -725,
+          "y": -306
+        }
+      }
+    },
+    {
+      "id": 307,
+      "module": "json:ParseJSON",
+      "version": 1,
+      "parameters": {
+        "type": ""
+      },
+      "mapper": {
+        "json": "{{replace(replace(99.candidates[1].content.parts[1].text; \"```json\"; \"\"); \"```\"; \"\")}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": -617,
+          "y": -892
+        }
+      }
+    },
+    {
+      "id": 443,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "authenticationType": "noAuth",
+        "tlsType": "",
+        "proxyKeychain": ""
+      },
+      "mapper": {
+        "url": "https://cashmaker-veo-worker-production.up.railway.app/generate",
+        "method": "post",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "contentType": "json",
+        "parseResponse": true,
+        "stopOnHttpError": true,
+        "timeout": "120",
+        "allowRedirects": true,
+        "shareCookies": false,
+        "requestCompressedContent": true,
+        "inputMethod": "jsonString",
+        "jsonStringBodyContent": "{\"prompt\": \"{{307.broll}}\"}"
+      },
+      "metadata": {
+        "designer": {
+          "x": -403,
+          "y": -351
+        }
+      }
+    },
+    {
+      "id": 419,
+      "module": "util:FunctionSleep",
+      "version": 1,
+      "parameters": {},
+      "filter": null,
+      "mapper": {
+        "duration": "30"
+      },
+      "metadata": {
+        "designer": {
+          "x": -301,
+          "y": -835
+        }
+      }
+    },
+    {
+      "id": 401,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "authenticationType": "noAuth",
+        "tlsType": "",
+        "proxyKeychain": ""
+      },
+      "mapper": {
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/o11yegU3CL24TZ1qcm6b",
+        "method": "post",
+        "headers": [
+          {
+            "name": "xi-api-key",
+            "value": "sk_2e09df4ab3b1777031f5dd2495077c2ef5bc9383c38f09bb"
+          }
+        ],
+        "contentType": "json",
+        "parseResponse": false,
+        "stopOnHttpError": true,
+        "timeout": "200",
+        "allowRedirects": true,
+        "shareCookies": false,
+        "requestCompressedContent": false,
+        "inputMethod": "jsonString",
+        "jsonStringBodyContent": "{\"text\": \"{{307.audio}}\", \"model_id\": \"eleven_multilingual_v2\", \"output_format\": \"mp3_44100_128\"}"
+      },
+      "metadata": {
+        "designer": {
+          "x": -168,
+          "y": -426
+        }
+      }
+    },
+    {
+      "id": 95,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 551,
+          "y": -1138
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 274,
+              "module": "telegram:SendVideo",
+              "version": 1,
+              "parameters": {
+                "__IMTCONN__": 7327327
+              },
+              "mapper": {
+                "width": "",
+                "chatId": "@Finansowyoddech",
+                "height": "",
+                "caption": "{{307.opis}}",
+                "httpUrl": "{{443.data.video_url}}",
+                "duration": "",
+                "sendType": "send_byurl",
+                "parseMode": "",
+                "contentType": "",
+                "replyMarkup": "",
+                "messageThreadId": "",
+                "replyMarkupAssembleType": "reply_markup_enter"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 842,
+                  "y": -355
+                }
+              },
+              "onerror": [
+                {
+                  "id": 413,
+                  "module": "builtin:Ignore",
+                  "version": 1,
+                  "metadata": {
+                    "designer": {
+                      "x": 704,
+                      "y": -734
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 407,
+              "module": "facebook-pages:UploadVideo",
+              "version": 6,
+              "parameters": {
+                "__IMTCONN__": 5071680
+              },
+              "mapper": {
+                "type": "url",
+                "page_id": "1027429113781142",
+                "video_url": "{{443.data.video_url}}",
+                "description": "{{307.opis}}"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1160,
+                  "y": -612
+                }
+              }
+            },
+            {
+              "id": 412,
+              "module": "instagram-business:CreateAReelPost",
+              "version": 1,
+              "parameters": {
+                "__IMTCONN__": 5071680
+              },
+              "mapper": {
+                "caption": "{{307.opis}}",
+                "accountId": "17841456132341730",
+                "video_url": "{{443.data.video_url}}",
+                "share_to_feed": false
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1608,
+                  "y": -727
+                }
+              },
+              "onerror": [
+                {
+                  "id": 414,
+                  "module": "builtin:Ignore",
+                  "version": 1,
+                  "metadata": {
+                    "designer": {
+                      "x": 1396,
+                      "y": -809
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 409,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": 6720672
+              },
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "A1": "{{443.data.video_url}}",
+                  "Data": "{{now}}",
+                  "Tytul": "{{1.title}}",
+                  "Prompt": "{{307.opis}}",
+                  "Status": "opublikowano"
+                },
+                "sheetId": "Sheet1",
+                "spreadsheetId": "/1qXBan302Id0iubs31Lk-5mBoO74JN9Zkyk9Wu495UCM",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": true,
+                "valueInputOption": "USER_ENTERED",
+                "insertUnformatted": false
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1262,
+                  "y": -1172
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "zone": "eu1.make.com",
+    "notes": ["CashMaker Master Truth V16 - Integracja z cashmaker-veo-worker"]
+  }
+}
